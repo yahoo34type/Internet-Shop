@@ -1,0 +1,63 @@
+body{background: #efefef url("images/io.png"); background-size: 200px; margin: 0; padding: 0; font: 15px/24px Arial,Tahoma,sans-serif; color: #272727; }
+a{text-decoration: none; }
+a:hover{transition: all 0.5s;}
+img{box-shadow: 1px, 1px, 5px #777}
+/*структура сайта*/
+div.mid{width: 1000px; margin: 0 auto;}
+div.header{height: 120px; padding-top: 20px; background-color: #101417; background-size: 400px 400px;}
+div.header img{height:100px; margin-left: 5%;}
+div.footer{margin: 20px 0; text-align: center; text-transform: uppercase; color: #4AD334; font-weight: bold; text-shadow: 7px 7px 37px #777;}
+/*шапка сайта*/
+div.topmenu{float:right; height: 100px; line-height: 100px;}
+div.topmenu a{margin:0 0 0 35px; color:#E5F62A;}
+div.topmenu a:hover{color: #fff;}
+div.basket{float:right; margin: 13px 2% 0 50px; width: 200px; height: 70px; border: 3px solid #1CD929; color: #ffffff; line-height: 70px; text-align: center;}
+div.basket img{float:right; height: 70px;}
+div.afisha{padding: 30px 50px 20px 20px; 
+	         background: linear-gradient(90deg, #F92121 100px, #F69C3B 100px,#F69C3B 200px, #F3F523 200px,#F3F523 300px,#34CB16 300px, #34CB16 400px,
+	         	#1D18DA 400px,#1D18DA 500px,#A615BC 500px) right top repeat-x;
+					 background-size: 600px 10px; background-color: #5CDB47;}
+div.afisha img{float: left; height: 100px;}
+div.afisha p{text-align: center;}
+div.afisha a{font-size: 20px; color: #fff; font-weight: bold; background: #b23600; border: 1px solid #862900; padding: 15px 25px;
+							border-radius: 3px; box-shadow: 2px, 2px, 7px -1px #777; text-shadow: 0px 0px 15px #752300;}
+div.afisha a:hover{background: #068bac; border: 1px solid #046d88;}
+div.afisha h3{font-size: 24px; font-weight: normal; text-align: center; color: #DD1212;} 
+/*меню сайта*/
+div.menu{background: #1683a3; border: 1px solid #016c8b; border-left: none; border-right: none;}
+div.menu ul{margin: 0; padding: 0; list-style: none; text-align: center; }
+div.menu ul li{display: inline-block; margin: 10px 70px; font-size: 20px;}
+div.menu ul li a{color: #fff; text-transform: uppercase;}
+div.menu ul li a:hover{color: #a3e1f3;}
+/*функциональный блок сайта*/
+div.bg{background: #fff; border: 1px solid #ccc; border-top: none; padding: 40px;}
+div.bg hr.line{border:none; border-bottom: 1px dashed #ccc; margin: 20px 0;}
+div.block{width: 440px; float:left;}
+div.block:nth-of-type(even) {float:right;}
+div.block a p{color:#272727;}
+div.announce{background: #f5f5f5; border: 1px solid #ccc; padding: 20px; border-radius: 3px;}
+div.announce h3{font-size: 20px; margin: 20px 0 10px; color: #01617d; padding: 0; font-weight: normal; line-height: 20px;}
+div.announce p{text-shadow: 1px 1px 0 #fff;}
+div.announce img{box-shadow: 1px 1px 5px #fff;}
+div.announce img:hover{transform: scale(1.1) rotate(2deg); transition: transform 0.5s;}
+div.announce:hover{background: #e0eff4; border: 1px solid #bfd5dd; transition: all 1s;}
+div.adv img{width: 900px;}
+/*footer*/
+
+div.clear{clear: both;}
+/*Адаптивный дизайн*/
+@media screen and (max-width: 999px)
+{
+	div.mid{width: 95%;}
+	div.afisha h3{font-size: 22px;} 
+	div.block{width: 48%;}
+	div.announce img{widows: 100%;}
+	div.announce h3{font-size: 16px;}
+	div.adv img{width: 100%;}
+}
+@media screen and (max-width: 640px)
+{
+	div.header{text-align: center; background-position: center -130px;}
+	div.topmenu, div.afisha, div.block, div.block:nth-of-type(even) {float: none;}
+	div.block{width: auto; margin-bottom: 40px;}
+}
