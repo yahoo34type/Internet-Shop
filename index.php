@@ -14,7 +14,7 @@
 								<img src="images/korz49.jpg">
 				</div>
 				<div class="topmenu">
-						<a href="#" target="_blank">Главная</a>
+						<a href="/index.php"">Главная</a>
 						<a href="#">Список городов</a>
 						<a href="#">Контакты</a>
 				</div>
@@ -41,96 +41,73 @@
 	<div class="content">
 		<div class="mid">
 			<div class="bg">
-				<div class="block">
-					<a href="#">
-						<div class="announce">
-							<section>
-								<img src="images/ДимаПляж.jpg" alt="Дима" title="Дима Пляж Kappa" width="100%">
-								<h3>Цена на бытовую технику возрасла вдвое</h3>
-								<p>Как справиться? Есть надежное решение...ч</p>
-								<html lang="en">
-								<head>
-									<meta charset="UTF-8">
-									<title>Document</title>
-								</head>
-								<body>
-									
-								</body>
-								</html></p>
-							</section>
-						</div>
-					</a>
-				</div>
-				<div class="block">
-					<a href="">
-						<div class="announce">
-							<section>
-								<img src="images/й.png" alt="Миша" title="Миша Рим Kappa" width="100%">
-								<h3>Мощный ПК для творческих и прочих задач</h3>
-								<p>Стоит ли покупать сейчас?	</p>
-								<html lang="en">
-								<head>
-									<meta charset="UTF-8">
-									<title>Document</title>
-								</head>
-								<body>
-									
-								</body>
-								</html></p>
-							</section>
-						</div>
-					</a>
-				</div>
-				<div class="clear">
-				</div>
-				<hr class="line">
-				<div class="adv">
-					<img src="images/14725682707280.jpg" alt="Печаль" title="Кот">
-				</div>
-				<hr class="line">
-				<div class="block">
-					<a href="#">
-						<div class="announce">
-							<section>
-								<img src="images/ДимаПляж.jpg" alt="3" title="Дима Пляж Kappa" width="100%">
-								<h3>3</h3>
-								<p>3</p>
-								<html lang="en">
-								<head>
-									<meta charset="UTF-8">
-									<title>Document</title>
-								</head>
-								<body>
-									
-								</body>
-								</html></p>
-							</section>
-						</div>
-					</a>
-				</div>
-				<div class="block">
-					<a href="">
-						<div class="announce">
-							<section>
-								<img src="images/й.png" alt="4" title="Миша Рим Kappa" width="100%">
-								<h3>4</h3>
-								<p>4</p>
-								<html lang="en">
-								<head>
-									<meta charset="UTF-8">
-									<title>Document</title>
-								</head>
-								<body>
-									
-								</body>
-								</html></p>
-							</section>
-						</div>
-					</a>
-				</div>
-				<div class="clear">
-				</div>
+			<?php
+			if (!empty($_GET["page"]) && ctype_digit($_GET["page"]))
+				$cur = ($_GET["page"]-1)*2;
+			else
+				$cur = 0;
+				include('includes/db.php');
+				$result = mysqli_query($connection, ("SELECT `id`,`Name`,`Intro` FROM `News` ORDER BY `date` DESC LIMIT " . (string)($cur) . ",2")) or die('Запрос не удался: ' . mysqli_error($connection));
+				while($row=mysqli_fetch_assoc($result)) {
+					    echo '<div class="block"><a href="#"><div class="announce">';
+							echo "<section><div class=\"image\"><img src=\"images/news" . $row['id'] . ".jpg\" width=\"100%\"></div>";
+							echo "<h3>{$row['Name']}</h3><p>{$row['Intro']}</p>";
+							echo '</section></div></a></div>';
+				};
+			?>
+			<div class="clear">
 			</div>
+					<div class="pagebar">
+							<?php
+							/*кнопка предыдущей страницы*/
+								if (!empty($_GET["page"]) && ($_GET["page"] > 1))
+								{ echo "<a href=\"index.php?page=" . (string)($_GET["page"] - 1) . "\">";}
+								else
+									{ echo "<a href=\"#\">";}
+								echo "<div class=\"button\">
+									<<
+								</div>
+							</a>";
+							/*кнопка первой страницы*/
+								if (!empty($_GET["page"]) && ($_GET["page"] != 1))
+								{ echo "<a href=\"index.php?page=1\">";}
+								else
+									{ echo "<a href=\"#\">";}
+							echo "<div class=\"button\">
+									1
+								</div>
+							</a>";			
+								include('includes/db.php');
+								$res = mysqli_query($connection, "SELECT COUNT(*) AS `Num` FROM `News`") or die('Запрос не удался: ' . mysqli_error());
+								$r = round(mysqli_fetch_assoc($res)['Num']/2,0,PHP_ROUND_HALF_UP);
+								/*кнопка последней страницы*/
+								if (($r > 1) && ($_GET["page"] != $r))
+								{ echo "<a href=\"index.php?page=$r\">";}
+								else
+								{ echo "<a href=\"#\">";}
+									echo "<div class=\"button\"> $r 
+										</div>
+									</a>";
+								/*кнопка следующей страницы*/
+								if (!empty($_GET["page"]) && ($_GET["page"] < $r))
+								{ echo "<a href=\"index.php?page=" . (string)($_GET["page"] + 1) . "\">";}
+								elseif ($r > 1)
+									{ echo "<a href=\"index.php?page=2\">";}
+								else
+									{ echo "<a href=\"#\">";}
+								echo "<div class=\"button\">
+									>>
+								</div>
+							</a>
+					</div>"
+					?>
+					<div class="tellme">
+						<form method="GET" action="/index.php">
+							<input type="text" class="text" name="page" placeholder="№страницы" pattern="^[0-9]+$">
+							<input type="submit" value = "Перейти" name="" >
+						</form>
+					</div>
+					
 		</div>
 	</div>
 	<div class="footer">

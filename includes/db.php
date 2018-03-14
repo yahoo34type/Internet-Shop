@@ -1,5 +1,5 @@
 <?php 
-	$connection = mysqli_connect('localhost','root','','Test_db');
+	$connection = mysqli_connect('localhost','root','','ioShop');
 		if ($connection == false)
 		{
 			echo "Не получилось чот;)))) <br>";
