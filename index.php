@@ -15,8 +15,8 @@
 				</div>
 				<div class="topmenu">
 						<a href="/index.php"">Главная</a>
-						<a href="#">Список городов</a>
-						<a href="#">Контакты</a>
+						<a href="/towns.php">Список городов</a>
+						<a href="/contacts.php">Контакты</a>
 				</div>
 				<img src="images/FeelsBadMan.png" alt="Логотип сайта" title="Логотип сайта">
 				<!--<div class="afisha">
@@ -42,17 +42,18 @@
 		<div class="mid">
 			<div class="bg">
 			<?php
+			$month_rus = array("Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря");
 			if (!empty($_GET["page"]) && ctype_digit($_GET["page"]))
 				$cur = ($_GET["page"]-1)*2;
 			else
 				$cur = 0;
 				include('includes/db.php');
-				$result = mysqli_query($connection, ("SELECT `id`,`Name`,`Intro` FROM `News` ORDER BY `date` DESC LIMIT " . (string)($cur) . ",2")) or die('Запрос не удался: ' . mysqli_error($connection));
+				$result = mysqli_query($connection, ("SELECT `id`,`Name`,`Intro`,`date` FROM `News` ORDER BY `date` DESC LIMIT " . (string)($cur) . ",2")) or die('Запрос не удался: ' . mysqli_error($connection));
 				while($row=mysqli_fetch_assoc($result)) {
-					    echo '<div class="block"><a href="#"><div class="announce">';
+					    echo "<div class=\"block\"><a href=\"/viewnews.php?id=" . $row['id'] . "\"><div class=\"announce\">";
 							echo "<section><div class=\"image\"><img src=\"images/news" . $row['id'] . ".jpg\" width=\"100%\"></div>";
 							echo "<h3>{$row['Name']}</h3><p>{$row['Intro']}</p>";
-							echo '</section></div></a></div>';
+							echo "</section><h5>". substr($row['date'],8,2) . " " . $month_rus[(int)substr($row['date'],5,2)] . " " . substr($row['date'],0,4) . "</h5></div></a></div>";
 				};
 			?>
 			<div class="clear">
@@ -91,7 +92,7 @@
 								/*кнопка следующей страницы*/
 								if (!empty($_GET["page"]) && ($_GET["page"] < $r))
 								{ echo "<a href=\"index.php?page=" . (string)($_GET["page"] + 1) . "\">";}
-								elseif ($r > 1)
+								elseif ($r > 1 && (empty($_GET["page"])))
 									{ echo "<a href=\"index.php?page=2\">";}
 								else
 									{ echo "<a href=\"#\">";}

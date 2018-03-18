@@ -38,7 +38,8 @@ div.block a p{color:#272727;}
 div.image{height: 400px;}
 div.announce{background: #f5f5f5; border: 1px solid #ccc; padding: 20px; border-radius: 3px;}
 div.announce h3{font-size: 18px; margin: 20px 0 10px; color: #01617d; padding: 0; font-weight: normal; line-height: 20px;}
-div.announce p{text-shadow: 1px 1px 0 #fff; font-size: 14px;}
+div.announce h5{font-size: 12px; color:#B1AFB7; margin: 0; text-align: right;}
+div.announce p{text-shadow: 1px 1px 0 #fff; font-size: 14px; margin-bottom: 0;}
 div.announce img{box-shadow: 1px 1px 5px #fff;}
 div.announce img:hover{transform: scale(1.1) rotate(2deg); transition: transform 0.5s;}
 div.announce:hover{background: #e0eff4; border: 1px solid #bfd5dd; transition: all 1s;}
@@ -68,3 +69,10 @@ div.clear{clear: both;}
 	div.topmenu, div.afisha, div.block, div.block:nth-of-type(even) {float: none;}
 	div.block{width: auto; margin-bottom: 40px;}
 }
+
+div.newsimg img{float: right; margin-left: 20px;}
+div.news h3{font-size: 30px;}
+div.news h4{font-size: 12px; font-weight: normal; white-space: pre-wrap;}
+div.news h5{font-size: 12px; font-weight: normal;}
+div.contacts img{float:right; width: 300px;}
+div.contacts hr{width: 250px;}
