@@ -46,15 +46,28 @@
 			if (!empty($_GET["id"]) && ctype_digit($_GET["id"]))
 			{
 					include('includes/db.php');
-					$result = mysqli_query($connection, ("SELECT `Name`,`text`,`date` FROM `News` WHERE `id` = {$_GET['id']}")) or die('Запрос не удался: ' . mysqli_error($connection));
+					$result = mysqli_query($connection, ("SELECT `Marks`.`name`,`Goods`.`model`,`Goods`.`description`,`Goods`.`configuration` FROM `Goods` JOIN `Marks` WHERE `Goods`.`id` = {$_GET['id']} AND `Marks`.`id`=`Goods`.`id_mark`")) or die('Запрос не удался: ' . mysqli_error($connection));
 					while($row=mysqli_fetch_assoc($result)) 
 					{
-						echo "<div class=\"news\">";
-						echo "<h3>{$row['Name']}</h3>";
-						echo "<div class=\"newsimg\"><img src=\"images/news" . $_GET["id"] . ".jpg\" width=\"400px%\"></div>";
-						echo "<h4><p align=\"justify\">{$row['text']}</p></h4><br>";
-						echo "<h5>". substr($row['date'],8,2) . " " . $month_rus[(int)substr($row['date'],5,2)] . " " . substr($row['date'],0,4) . " " .substr($row['date'],11,5) . "</h5></div>";
+						echo "<div class=\"view\">";
+						echo "<h3>{$row['name']} {$row['model']}</h3>";
+						echo "<div class=\"newsimg\"><img src=\"images/goods/" . $_GET["id"] . ".jpg\" width=\"300px%\"></div>";
+						echo "<h4><p align=\"justify\">{$row['description']}</p></h4>";
 						echo "<div class=\"clear\"></div>";
+						echo "<table>";
+						$keywords = preg_split("/[\r\n]+/", $row['configuration']);
+						foreach ($keywords as $key) {
+							echo "<tr>";
+							$k = preg_split("/[\":\t]+/", $key);
+							if (($k[1]) == " " || $k[1] == "")
+								echo "<td class='nt2'>$k[0]</td>";
+							else
+							foreach ($k as $val) {
+								echo "<td class='nt'>$val</td>";
+							}
+							echo "</tr>";
+						}
+						echo "</table>";
 					}
 			}
 			else

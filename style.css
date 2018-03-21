@@ -30,18 +30,19 @@ div.menu ul li{display: inline-block; margin: 10px 70px; font-size: 20px;}
 div.menu ul li a{color: #fff; text-transform: uppercase;}
 div.menu ul li a:hover{color: #a3e1f3;}
 /*функциональный блок сайта*/
-div.bg{background: #fff; border: 1px solid #ccc; border-top: none; padding: 40px;}
+div.bg{background: #fff; border: 1px solid #ccc; border-top: none; padding: 40px;	}
 div.bg hr.line{border:none; border-bottom: 1px dashed #ccc; margin: 20px 0;}
 div.block{width: 440px; float:left;}
 div.block:nth-of-type(even) {float:right;}
 div.block a p{color:#272727;}
 div.image{height: 400px;}
-div.announce{background: #f5f5f5; border: 1px solid #ccc; padding: 20px; border-radius: 3px;}
+div.announce{background: #f5f5f5; border: 1px solid #ccc; border-radius: 3px;}
 div.announce h3{font-size: 18px; margin: 20px 0 10px; color: #01617d; padding: 0; font-weight: normal; line-height: 20px;}
 div.announce h5{font-size: 12px; color:#B1AFB7; margin: 0; text-align: right;}
 div.announce p{text-shadow: 1px 1px 0 #fff; font-size: 14px; margin-bottom: 0;}
+div.announce section{margin: 20px;}
 div.announce img{box-shadow: 1px 1px 5px #fff;}
-div.announce img:hover{transform: scale(1.1) rotate(2deg); transition: transform 0.5s;}
+div.announce img:hover{transform: scale(1.1); transition: transform 0.5s;}
 div.announce:hover{background: #e0eff4; border: 1px solid #bfd5dd; transition: all 1s;}
 div.adv img{width: 900px;}
 div.pagebar {margin: 20px 44% -18px 42%; width: 210px; height: 30px; color: #ffffff; line-height: 70px; text-align: center;}
@@ -76,3 +77,31 @@ div.news h4{font-size: 12px; font-weight: normal; white-space: pre-wrap;}
 div.news h5{font-size: 12px; font-weight: normal;}
 div.contacts img{float:right; width: 300px;}
 div.contacts hr{width: 250px;}
+
+div.goodsblock{width: 78%; float:left; margin-bottom: 10px;}
+div.goodsblock section{height: 130px; margin:7px;}
+div.goodsblock h3{margin: 0;}
+div.goodsblock.announce{padding: 0;}
+div.image2{width: 130px; height: 130px; float:left;}
+div.image2 img{float: left;}
+div.des {float:left; margin-left:20px; margin-top: 10px; width: 60%;}
+div.des h4{font-size: 11px; color: #5A5555;margin:0px; line-height: 15px; margin-top: 15px;}
+div.des h3{font-size: 24px;	}
+div.navigation {width: 20%; height: 1548px; background: #f5f5f5; border: 1px solid #ccc; border-radius: 3px; float:left; margin-right: 20px;}
+div.mid2 {width: 90%; margin: 0 5%;}
+
+div.view h3{font-size: 35px;}
+div.view h4{font-size: 14px; font-weight: normal; white-space: pre-wrap;}
+div.view h5{font-size: 12px; font-weight: normal;}
+td.nt:nth-of-type(odd) {width: 400px; background: url("images/dots.png") 0 80% repeat-x;}
+td.nt:nth-of-type(even) {width: 400px;}
+td.nt2{font-weight: bold; text-decoration: underline;}
+div.prpb {float: left; border: 1px solid #111111; height: 111px; width: 130px; margin: 8px 0px 0px 24px; border-radius: 14px; background: linear-gradient(5deg, #23AFAA, #1B7692); box-shadow: 0 0 4px 0px #5954a2;}
+div.prpb:hover {color: #ffffff;background: linear-gradient(5deg, #03BB61, #17687D); box-shadow: 0 0 5px 0px #5954a2; transition: all 0.5s;}
+div.prpb h3{text-align: center; margin-top: 31px; font-size: 25px; color: #81d1d1; text-shadow: 1px 1px 2px black;}
+div.prpb h4{text-align: center; margin-top: 15px; font-size: 15px; line-height: 15px; color: #ffffff;	 text-shadow: 1px 1px 1px #464454;}
+div.prpb:hover h3{color: #3ab27a;}
+div.navigation h3{text-align: center;}
+div.navigation form {margin-left: 20px;}
+input.w8 {margin-left: 5%; width: 80%; height: 50px; margin-top: 10px; margin-bottom:10px;background: linear-gradient(5deg, #23AFAA, #1B7692); color:#ffffff; font-size: 15px;}
+input.w8:hover {background: linear-gradient(5deg, #03BB61, #17687D);}

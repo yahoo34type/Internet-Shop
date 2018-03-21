@@ -31,7 +31,7 @@
 		<div class="mid">
 			<nav>
 			 <ul>
-			 	<li><a href="#">Компьютеры</a></li>
+			 	<li><a href="/viewgoods.php?page=1">Компьютеры</a></li>
 			 	<li><a href="#">Комплектующие</a></li>
 			 	<li><a href="#">Бытовая техника</a></li>			 	
 			 </ul>

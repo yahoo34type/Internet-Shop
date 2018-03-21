@@ -31,7 +31,7 @@
 		<div class="mid">
 			<nav>
 			 <ul>
-			 	<li><a href="#">Компьютеры</a></li>
+			 	<li><a href="/viewgoods.php?page=1">Компьютеры</a></li>
 			 	<li><a href="#">Комплектующие</a></li>
 			 	<li><a href="#">Бытовая техника</a></li>			 	
 			 </ul>
@@ -53,13 +53,11 @@
 					    echo "<div class=\"block\"><a href=\"/viewnews.php?id=" . $row['id'] . "\"><div class=\"announce\">";
 							echo "<section><div class=\"image\"><img src=\"images/news" . $row['id'] . ".jpg\" width=\"100%\"></div>";
 							echo "<h3>{$row['Name']}</h3><p>{$row['Intro']}</p>";
-							echo "</section><h5>". substr($row['date'],8,2) . " " . $month_rus[(int)substr($row['date'],5,2)] . " " . substr($row['date'],0,4) . "</h5></div></a></div>";
+							echo "<h5>". substr($row['date'],8,2) . " " . $month_rus[(int)substr($row['date'],5,2)] . " " . substr($row['date'],0,4) . "</h5></section></div></a></div>";
 				};
-			?>
-			<div class="clear">
+			echo '<div class="clear">
 			</div>
-					<div class="pagebar">
-							<?php
+					<div class="pagebar">';
 							/*кнопка предыдущей страницы*/
 								if (!empty($_GET["page"]) && ($_GET["page"] > 1))
 								{ echo "<a href=\"index.php?page=" . (string)($_GET["page"] - 1) . "\">";}
