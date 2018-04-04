@@ -128,40 +128,40 @@
 						$_GET["type"] = 1;
 			}
 			else
-				{
-					$cur = 0;  $_GET["page"] = 1;
-					if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 3))
-						$_GET["type"] = 1;
-				}
-			  $res1 = mysqli_query($connection, ("SELECT `Marks`.`name` FROM `Marks` JOIN `Goods` ON `Goods`.`id_type` = {$_GET["type"]} WHERE `Goods`.`id_mark`=`Marks`.`id` GROUP BY name")) or die('Запрос не удался: ' . mysqli_error($connection));
-			  echo "<h3>Производитель:</h3><hr><form id='loopa'>";
-			  $it = 1;
-			  $add = "";
-			  foreach ($res1 as $key) {
-			  	if ($_GET[$key['name']] == 0)
-			  		echo "<p><input type=\"checkbox\" name={$key['name']} id='cb$it' value=\"1\"> {$key['name']}</p>";
-			  	else
-			  	{
-			  		echo "<p><input type=\"checkbox\" name={$key['name']} id='cb$it' value=\"1\" checked = true> {$key['name']}</p>";
-			  		if ($add != "")
-			  			$add = $add . " OR `Marks`.`name`=\"{$key['name']}\"";
-			  		else
-			  			$add = "`Marks`.`name`=\"{$key['name']}\"";
-			  	}
-			  	$it++;
-			  }
-			  echo "<input type=\"button\" value=\"Отфильтровать\" class=\"w8\" onclick = \"pnc2({$_GET['page']})\"></form><hr></div>";
-			  if ($add == "")
-				  $result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
-				else
-					$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` AND ($add) ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
-				while($row=mysqli_fetch_assoc($result)) {
-					    echo "<div class=\"goodsblock\"><a href=\"/view.php?id=" . $row['id'] . "\"><object type = \"sobakaseentez\"><div class=\"announce	\">";
-							echo "<section><div class=\"image2\"><img src=\"images/goods/" . $row['id'] . ".jpg\" height=\"130px\"></div>";
-							echo "<div class=\"des\"><h3>{$row['name']} {$row['model']}</h3><h4>{$row['preview']}</h4></div>";
-							echo "<a href=\"handle.php\"><div class=\"prpb\"><h3>136777 р.</h3><h4>Добавить в корзину</h4>
-							</div></a></section></div></object></a></div>";
-				};
+			{
+				$cur = 0;  $_GET["page"] = 1;
+				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 3))
+					$_GET["type"] = 1;
+			}
+		  $res1 = mysqli_query($connection, ("SELECT `Marks`.`name` FROM `Marks` JOIN `Goods` ON `Goods`.`id_type` = {$_GET["type"]} WHERE `Goods`.`id_mark`=`Marks`.`id` GROUP BY name")) or die('Запрос не удался: ' . mysqli_error($connection));
+		  echo "<h3>Производитель:</h3><hr><form id='loopa'>";
+		  $it = 1;
+		  $add = "";
+		  foreach ($res1 as $key) {
+		  	if ($_GET[$key['name']] == 0)
+		  		echo "<p><input type=\"checkbox\" name={$key['name']} id='cb$it' value=\"1\"> {$key['name']}</p>";
+		  	else
+		  	{
+		  		echo "<p><input type=\"checkbox\" name={$key['name']} id='cb$it' value=\"1\" checked = true> {$key['name']}</p>";
+		  		if ($add != "")
+		  			$add = $add . " OR `Marks`.`name`=\"{$key['name']}\"";
+		  		else
+		  			$add = "`Marks`.`name`=\"{$key['name']}\"";
+		  	}
+		  	$it++;
+		  }
+		  echo "<input type=\"button\" value=\"Отфильтровать\" class=\"w8\" onclick = \"pnc2({$_GET['page']})\"></form><hr></div>";
+		  if ($add == "")
+			  $result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
+			else
+				$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` AND ($add) ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
+			while($row=mysqli_fetch_assoc($result)) {
+				    echo "<div class=\"goodsblock\"><a href=\"/view.php?id=" . $row['id'] . "\"><object type = \"sobakaseentez\"><div class=\"announce	\">";
+						echo "<section><div class=\"image2\"><img src=\"images/goods/" . $row['id'] . ".jpg\" height=\"130px\"></div>";
+						echo "<div class=\"des\"><h3>{$row['name']} {$row['model']}</h3><h4>{$row['preview']}</h4></div>";
+						echo "<a href=\"handle.php\"><div class=\"prpb\"><h3>136777 р.</h3><h4>Добавить в корзину</h4>
+						</div></a></section></div></object></a></div>";
+			};
 			echo '<div class="clear">
 			</div>
 					<div class="pagebar">';
@@ -188,7 +188,7 @@
 									$res = mysqli_query($connection, "SELECT COUNT(*) AS `Num` FROM `Goods` WHERE `id_type` = {$_GET["type"]}") or die('Запрос не удался: ' . mysqli_error());
 								else
 									$res = mysqli_query($connection, "SELECT COUNT(*) AS `Num` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id` = `Goods`.`id_mark` AND ($add)") or die('Запрос не удался: ' . mysqli_error());
-								$r = round(mysqli_fetch_assoc($res)['Num']/10,0,PHP_ROUND_HALF_UP);
+								$r = ceil(mysqli_fetch_assoc($res)['Num']/10);
 								/*кнопка последней страницы*/
 								if (($r > 1) && ($_GET["page"] != $r))
 							  { echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)($r)) . ">";}
