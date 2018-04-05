@@ -153,7 +153,7 @@
 		  echo "<input type=\"button\" value=\"Отфильтровать\" class=\"w8\" onclick = \"pnc2({$_GET['page']})\"></form><hr></div>";
 		  if ($add == "")
 			  $result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
-			else
+			else 
 				$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` AND ($add) ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
 			while($row=mysqli_fetch_assoc($result)) {
 				    echo "<div class=\"goodsblock\"><a href=\"/view.php?id=" . $row['id'] . "\"><object type = \"sobakaseentez\"><div class=\"announce	\">";

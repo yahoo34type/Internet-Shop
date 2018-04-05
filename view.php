@@ -46,7 +46,7 @@
 			if (!empty($_GET["id"]) && ctype_digit($_GET["id"]))
 			{
 					include('includes/db.php');
-					$result = mysqli_query($connection, ("SELECT `Marks`.`name`,`Goods`.`model`,`Goods`.`description`,`Goods`.`configuration` FROM `Goods` JOIN `Marks` WHERE `Goods`.`id` = {$_GET['id']} AND `Marks`.`id`=`Goods`.`id_mark`")) or die('Запрос не удался: ' . mysqli_error($connection));
+					$result = mysqli_query($connection, ("SELECT `Marks`.`name`,`Goods`.`model`,`Goods`.`description` FROM `Goods` JOIN `Marks` WHERE `Goods`.`id` = {$_GET['id']} AND `Marks`.`id`=`Goods`.`id_mark`")) or die('Запрос не удался: ' . mysqli_error($connection));
 					while($row=mysqli_fetch_assoc($result)) 
 					{
 						echo "<div class=\"view\">";
@@ -55,9 +55,20 @@
 						echo "<h4><p align=\"justify\">{$row['description']}</p></h4>";
 						echo "<div class=\"clear\"></div>";
 						echo "<table>";
-						$keywords = preg_split("/[\r\n]+/", $row['configuration']);
-						foreach ($keywords as $key) {
-							echo "<tr>";
+						$result1 = mysqli_query($connection, ("SELECT `Characteristics`.`name`, `Charvalues`.`value`, `Chartypes`.`name` AS `cname` FROM `Charvalues` LEFT JOIN `Characteristics` ON `char_id` = `Characteristics`.`id` LEFT JOIN `Chartypes` ON `Characteristics`.`chartype_id` = `Chartypes`.`id` WHERE `Charvalues`.`goods_id` = ". $_GET["id"] ." ORDER BY `Chartypes`.`id`, `Characteristics`.`id`")) or die('Запрос не удался: ' . mysqli_error($connection));
+							$cur = "";
+							while($rows=mysqli_fetch_assoc($result1)) 
+							{
+								if ($rows['cname'] != $cur)
+								{
+									$cur = $rows['cname'];
+									echo "<tr><td class='nt2'>" . $rows['cname'] . "</td></tr>";
+								}
+								echo "<tr><td class='nt'>". $rows['name'] . "</td><td class='nt'>".$rows['value']."</td></tr>";
+							}
+							
+
+							/*echo "<tr>";
 							$k = preg_split("/[\":\t]+/", $key);
 							if (($k[1]) == " " || $k[1] == "")
 								echo "<td class='nt2'>$k[0]</td>";
@@ -65,8 +76,7 @@
 							foreach ($k as $val) {
 								echo "<td class='nt'>$val</td>";
 							}
-							echo "</tr>";
-						}
+							echo "</tr>";*/
 						echo "</table>";
 					}
 			}
