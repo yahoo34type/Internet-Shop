@@ -31,9 +31,9 @@
 		<div class="mid">
 			<nav>
 			 <ul>
-			 	<li><a href="/viewgoods.php?page=1">Компьютеры</a></li>
-			 	<li><a href="#">Комплектующие</a></li>
-			 	<li><a href="#">Бытовая техника</a></li>			 	
+			 	<li><a href="/viewgoods.php?type=1&page=1">Компьютеры</a></li>
+			  <li><a href="/components.php">Комплектующие</a></li>
+			 	<li><a href="/appliances.php">Бытовая техника</a></li>			 	
 			 </ul>
 			</nav>
 		</div>
@@ -44,6 +44,9 @@
 			  <div class="townlist">
 			  	Компания работает во многих населенных пунктах Пермского края<br>
 			  	г. Пермь<br>
+
+			 
+			  	
 			  	ул. Пушкина д.Колотушкина<br>
 			  	<img src="images/perm.jpg" width="600px">;
 					<br>г.Березники<br>

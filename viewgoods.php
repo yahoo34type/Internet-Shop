@@ -108,8 +108,8 @@
 			<nav>
 			 <ul>
 			 	<li><a href="/viewgoods.php?type=1&page=1">Компьютеры</a></li>
-			 	<li><a href="#">Комплектующие</a></li>
-			 	<li><a href="#">Бытовая техника</a></li>			 	
+			 	<li><a href="/components.php">Комплектующие</a></li>
+			 	<li><a href="/appliances.php">Бытовая техника</a></li>		 	
 			 </ul>
 			</nav>
 		</div>
@@ -124,13 +124,13 @@
 			if (!empty($_GET["page"]) && ctype_digit($_GET["page"]))
 			{
 				$cur = ($_GET["page"]-1)*10;
-				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 3))
+				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 25))
 						$_GET["type"] = 1;
 			}
 			else
 			{
 				$cur = 0;  $_GET["page"] = 1;
-				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 3))
+				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 25))
 					$_GET["type"] = 1;
 			}
 		  $res1 = mysqli_query($connection, ("SELECT `Marks`.`name` FROM `Marks` JOIN `Goods` ON `Goods`.`id_type` = {$_GET["type"]} WHERE `Goods`.`id_mark`=`Marks`.`id` GROUP BY name")) or die('Запрос не удался: ' . mysqli_error($connection));
@@ -152,35 +152,33 @@
 		  }
 		  echo "<input type=\"button\" value=\"Отфильтровать\" class=\"w8\" onclick = \"pnc2({$_GET['page']})\"></form><hr></div>";
 		  if ($add == "")
-			  $result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
+			  $result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Prices` ON `Prices`.`goods_id` = `Goods`.`id` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` GROUP BY `Goods`.`id` ORDER BY `Prices`.`value` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
 			else 
-				$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` AND ($add) ORDER BY `Marks`.`name` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
+				$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Prices` ON `Prices`.`goods_id` = `Goods`.`id` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` AND ($add) GROUP BY `Goods`.`id` ORDER BY `Prices`.`value` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
+			 echo "<div class=\"goodsblocks\">";
 			while($row=mysqli_fetch_assoc($result)) {
 				    echo "<div class=\"goodsblock\"><a href=\"/view.php?id=" . $row['id'] . "\"><object type = \"sobakaseentez\"><div class=\"announce	\">";
 						echo "<section><div class=\"image2\"><img src=\"images/goods/" . $row['id'] . ".jpg\" height=\"130px\"></div>";
 						echo "<div class=\"des\"><h3>{$row['name']} {$row['model']}</h3><h4>{$row['preview']}</h4></div>";
-						echo "<a href=\"handle.php\"><div class=\"prpb\"><h3>136777 р.</h3><h4>Добавить в корзину</h4>
+						$res1 = mysqli_query($connection, "SELECT `value` FROM `Prices` WHERE goods_id = {$row['id']} AND date = (SELECT MAX(date))") or die('Запрос не удался: ' . mysqli_error($connection));
+						$price = mysqli_fetch_assoc($res1)['value'];
+						echo "<a href=\"handle.php?id=".$row['id']."\"><div class=\"prpb\"><h3>$price Р</h3><h4>Добавить в корзину</h4>
 						</div></a></section></div></object></a></div>";
 			};
+			echo "</div>";
 			echo '<div class="clear">
 			</div>
 					<div class="pagebar">';
-							/*кнопка предыдущей страницы*/
-								if (!empty($_GET["page"]) && ($_GET["page"] > 1))
-								{ echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)($_GET["page"] - 1)) . ">";}
-								else
-									{ echo "<a href=\"#\">";}
-								echo "<div class=\"button\">
-									<<
-								</div>
-							</a>";
 							/*кнопка первой страницы*/
 								if (!empty($_GET["page"]) && ($_GET["page"] != 1))
 								{ echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)(1))	 . ">";}
 								else
 									{ echo "<a href=\"#\">";}
-							echo "<div class=\"button\">
-									1
+							if ($_GET['page'] == 1)
+								echo "<div class=\"button1\">";
+							else
+								echo "<div class=\"button\">";
+							echo "<<
 								</div>
 							</a>";			
 								include('includes/db.php');
@@ -189,14 +187,23 @@
 								else
 									$res = mysqli_query($connection, "SELECT COUNT(*) AS `Num` FROM `Goods` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id` = `Goods`.`id_mark` AND ($add)") or die('Запрос не удался: ' . mysqli_error());
 								$r = ceil(mysqli_fetch_assoc($res)['Num']/10);
-								/*кнопка последней страницы*/
-								if (($r > 1) && ($_GET["page"] != $r))
-							  { echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)($r)) . ">";}
+								/*кнопка предыдущей страницы*/
+								if (!empty($_GET["page"]) && ($_GET["page"] > 1))
+								{ echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)($_GET["page"] - 1)) . ">";}
 								else
-								{ echo "<a href=\"#\">";}
-									echo "<div class=\"button\"> $r 
-										</div>
-									</a>";
+									{ echo "<a href=\"#\">";}
+								if ($_GET['page'] == 1)
+									echo "<div class=\"button1\">";
+								else
+									echo "<div class=\"button\">";
+									echo "<
+								</div>
+							</a>";
+								/*номер текущей страницы*/
+								echo "<div class=\"button2\">
+									{$_GET["page"]}
+								</div>
+								</a>";
 								/*кнопка следующей страницы*/
 								if (!empty($_GET["page"]) && ($_GET["page"] < $r))
 							  { echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)($_GET["page"] + 1)) . ">";}
@@ -205,14 +212,29 @@
 
 								else
 									{ echo "<a href=\"#\">";}
-								echo "<div class=\"button\">
-									>>
-								</div>
-							</a>
-					</div>";
+								if ($_GET['page'] == $r)
+								echo "<div class=\"button1\">";
+							else
+								echo "<div class=\"button\">";
+							echo "
+									>
+								</div></a>";
+								/*кнопка последней страницы*/
+								if (($r > 1) && ($_GET["page"] != $r))
+							  { echo "<a href=" . getvalchange($_SERVER["REQUEST_URI"],"page",(string)($r)) . ">";}
+								else
+								{ echo "<a href=\"#\">";}
+									if ($_GET['page'] == $r)
+								echo "<div class=\"button1\">";
+							else
+								echo "<div class=\"button\">";
+								echo " >>
+										</div>
+									</a>
+							</div>";
 					
 					echo "<div class=\"tellme\">
-						<form onsubmit=\"pnc({$_GET['page']})\">
+						<form onsubmit=\"pnc({$_GET['page']})\" class='niceform'>
 							<input type=\"text\" id =\"pagenum\" class=\"text\" placeholder=\"№страницы\" pattern=\"^[0-9]+$\" >
 							<input type=\"button\" value = \"Перейти\" name=\"\" onclick=\"pnc({$_GET['page']})\">
 						</form>
