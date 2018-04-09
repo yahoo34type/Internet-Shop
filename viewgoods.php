@@ -1,3 +1,12 @@
+<? 
+  include('includes/db.php');
+	session_start();
+	if (!isset($_SESSION['id'])) {
+		$t = mysqli_query($connection,"SELECT REPLACE(UUID(),'-','_') AS `id`") or die('Запрос 0.1 не удался: ' . mysqli_error($connection));
+	  $_SESSION['id'] = mysqli_fetch_assoc($t)['id'];
+	  mysqli_query($connection,"INSERT INTO `Sessions`(`sid`) VALUES ('{$_SESSION['id']}')") or die('Запрос 0.2 не удался: ' . mysqli_error($connection));
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,114 +14,87 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" type="image/x-icon" href="images/io.png">
 	<link rel="stylesheet" href="style.css" media="all">  
-	 <script>
-	function isInteger(num) {
-  return (num ^ 0) === num;
-	}
-	function isNumeric(n) {
-  return (parseInt(n) == n && n>0 && n<2000);
-}
-   function pnc(n) {
-    var str = document.getElementById("pagenum").value;
-    var n1 = location.toString();
-    var n2 = 0;
-    var v = "page=" + n.toString();
-    if (isNumeric(str)) 
-    {
-    	if (n1.indexOf(v) != -1)
-    		n1 = n1.replace(v,"page=" + str);
-    	else
-    		n1 = n1 + "?page=" + str;
-  	  location = n1;
-		} 
-		else 
-		{
-  	alert( "Введите число" );
-    }
-   }
-   function pnc2(n) {
-   	var i=1;
-   	var str = document.getElementById("cb" + i);
-   	var n2=location.toString();
-   	while (str != null)
-   	{
-   			if (str.checked==true)
-   			{
-   					if (n2.indexOf(str.name) != -1)
-   					{
-   						n2=n2.replace((str.name + "=0"),(str.name + "=1"))
-   					}
-   					else
-   					{
-   						if(n2.indexOf("?") != -1)
-   							n2 = n2 + "&" + str.name + "=1";
-   						else
-   							n2 = n2 + "?" + str.name + "=1";
-   					}
-   			}
-   			else
-   			{
-   					if (n2.indexOf(str.name) != -1)
-   					{
-   						n2=n2.replace((str.name + "=1"),(str.name + "=0"))
-   					}
-   					else
-   					{
-   						if (n2.indexOf("?") != -1)
-   							n2 = n2 + "&" + str.name + "=0";
-   						else
-   							n2 = n2 + "?" + str.name + "=0";
-   					}
-   			}
-   			i++;
-   			str = document.getElementById("cb" + i);
-   	}
-   	if (n2.indexOf("page=" + n) != -1)
-   					{
-   						n2=n2.replace(("page=" + n),("page=1"))
-   					}
-   					else
-   					{
-   						if(n2.indexOf("?") != -1)
-   							n2 = n2 + "&" + "page" + "=1";
-   						else
-   							n2 = n2 + "?" + "page" + "=1";
-   					}
-   	location = n2;
-}
-  </script>
+	<script src="/view.js"></script>
+	<script src="/hide.js"></script>
+	<script src="includes/jquery.js"></script>
+	<script type="text/javascript">
+		function updatepc(){
+		$.get( 
+   				'handle.php',
+   				{
+   					sid:'<?echo $_SESSION['id']?>',
+   					action:'sum'
+   				},
+   				function(data) {
+   					$("span.totalvalue").text(parseInt(data));
+				});
+		$.get( 
+   				'handle.php',
+   				{
+   					sid:'<?echo $_SESSION['id']?>',
+   					action:'count'
+   				},
+   				function(data) {
+  				$("span.totalcount").text(parseInt(data));
+				});
+		}
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+   		$(".prpb").click(function(){
+   			$.get( 
+   				'handle.php',
+   				{
+   					id:(this).getAttribute('id'),
+   					sid:'<?echo $_SESSION['id']?>,',
+   					action:'add'
+   				},
+   				function(data) {
+  				updatepc();
+				});
+    	});
+		});
+	</script>
 </head>
+<div class="cover" id="cover"></div>
+<header>
 	<div class="header">
-		
-			<header>
+			<a href="/basket.php">
 				<div class="basket">
-								Корзина
-								<img src="images/korz49.jpg">
+					<img src="images/basket.png"><span class="s totalvalue">
+						<?
+							$res=mysqli_query($connection,"SELECT SUM(`Basket`.`value` * `Prices`.`value`) AS `sum` FROM `Basket` JOIN `Prices` on `Basket`.`goods_id`=`Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')");
+							$res1=mysqli_fetch_assoc($res);
+							if (isset($res1['sum']))
+								$sum=$res1['sum'];
+							else
+								$sum = 0;
+							echo $sum;
+						?> 
+					</span>р
+					<div class="basketnum">
+					<?
+							$res32=mysqli_fetch_assoc(mysqli_query($connection,"SELECT COUNT(*) FROM `Basket` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')"));
+							$c=$res32['COUNT(*)'];
+							echo "<span class='totalcount'>$c</span>";
+					?>
+					</div>
 				</div>
+				</a>
 				<div class="topmenu">
-						<a href="/index.php"">Главная</a>
-						<a href="/towns.php">Список городов</a>
-						<a href="/contacts.php">Контакты</a>
+						<a href="/index.php""><div class='headerbtn'><img src="images/home.png"></div></a>
+						<a href="/towns.php"><div class='headerbtn'><img src="images/planet.png"></div></a>
+						<a href="/contacts.php"><div class='headerbtn'><img src="images/phone.png"></div></a>
 				</div>
-				<img src="images/FeelsBadMan.png" alt="Логотип сайта" title="Логотип сайта">
-				<!--<div class="afisha">
-					<img src="images/afisha.png" alt="Обложечка" title="Обложечка">
-					<h3>Лол, 30к<br>денег. Почем</h3>
-					<p><a href="#">Тут?</a></p>
-				</div>-->
-			</header>
-		
+				<a href="javascript:" onclick="Hide('navmenu');"><div class='menubtn'><img class="siteicon" src="images/FeelsBadMan.png" alt="Меню сайта" title="Меню сайта"><img src="images/chevron.png" id='chev' height="12px" style="margin-left: 10px; margin-bottom: 22px;"></div></a>
 	</div>
-	<div class="menu">
-		<div class="mid">
-			<nav>
-			 <ul>
-			 	<li><a href="/viewgoods.php?type=1&page=1">Компьютеры</a></li>
-			 	<li><a href="/components.php">Комплектующие</a></li>
-			 	<li><a href="/appliances.php">Бытовая техника</a></li>		 	
-			 </ul>
-			</nav>
-		</div>
+</header>
+	<div class="menu" id="navmenu">
+			
+			 	<a href="/viewgoods.php?page=1"><div class = "menubtn2"><img src="images/comp.png">Компьютеры</div></a>
+			 	<a href="/components.php"><div class = "menubtn2"><img src="images/chip.png">Комплектующие</div></a>
+			 	<a href="/appliances.php"><div class = "menubtn2"><img src="images/wm.png">Бытовая техника</div></a>	 	
+			 
 	</div>
 	<div class="content">
 		<div class="mid2">
@@ -124,13 +106,13 @@
 			if (!empty($_GET["page"]) && ctype_digit($_GET["page"]))
 			{
 				$cur = ($_GET["page"]-1)*10;
-				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 25))
+				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 28))
 						$_GET["type"] = 1;
 			}
 			else
 			{
 				$cur = 0;  $_GET["page"] = 1;
-				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 25))
+				if (!(!empty($_GET["type"]) && ctype_digit($_GET["type"]) && $_GET["type"] > 0 && $_GET["type"] <= 28))
 					$_GET["type"] = 1;
 			}
 		  $res1 = mysqli_query($connection, ("SELECT `Marks`.`name` FROM `Marks` JOIN `Goods` ON `Goods`.`id_type` = {$_GET["type"]} WHERE `Goods`.`id_mark`=`Marks`.`id` GROUP BY name")) or die('Запрос не удался: ' . mysqli_error($connection));
@@ -157,13 +139,28 @@
 				$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview` FROM `Goods` JOIN `Prices` ON `Prices`.`goods_id` = `Goods`.`id` JOIN `Marks` WHERE `id_type` = {$_GET["type"]} AND `Marks`.`id`=`Goods`.`id_mark` AND ($add) GROUP BY `Goods`.`id` ORDER BY `Prices`.`value` LIMIT " . (string)($cur) . ",10")) or die('Запрос не удался: ' . mysqli_error($connection));
 			 echo "<div class=\"goodsblocks\">";
 			while($row=mysqli_fetch_assoc($result)) {
-				    echo "<div class=\"goodsblock\"><a href=\"/view.php?id=" . $row['id'] . "\"><object type = \"sobakaseentez\"><div class=\"announce	\">";
-						echo "<section><div class=\"image2\"><img src=\"images/goods/" . $row['id'] . ".jpg\" height=\"130px\"></div>";
-						echo "<div class=\"des\"><h3>{$row['name']} {$row['model']}</h3><h4>{$row['preview']}</h4></div>";
+				    echo "<div class=\"goodsblock\">";
+				    	echo "<div class=\"linkblock\">";
+					    	echo "<a href=\"/view.php?id=" . $row['id'] . "\">";
+					    		echo "<div class=\"image2\"><img src=\"images/goods/" . $row['id'] . ".jpg\" height=\"130px\"></div>";
+									echo "<div class=\"des\"><h3>{$row['name']} {$row['model']}</h3><h4>{$row['preview']}</h4></div>";
+					    	echo "</a>";
+					    echo "</div>";
+					    $res1 = mysqli_query($connection, "SELECT `value` FROM `Prices` WHERE goods_id = {$row['id']} AND date = (SELECT MAX(date))") or die('Запрос не удался: ' . mysqli_error($connection));
+							$price = mysqli_fetch_assoc($res1)['value'];
+				    	echo "<div class=\"prpb\" id='{$row['id']}'>";
+				    		echo "<h3>$price Р</h3><h4>Добавить в корзину</h4>";
+				    	echo "</div>";
+				    echo "</div>";
+				    /*echo "<div class=\"announce	\">";
+						echo "<section>";
+						
+						
+						echo "</a>";
 						$res1 = mysqli_query($connection, "SELECT `value` FROM `Prices` WHERE goods_id = {$row['id']} AND date = (SELECT MAX(date))") or die('Запрос не удался: ' . mysqli_error($connection));
 						$price = mysqli_fetch_assoc($res1)['value'];
-						echo "<a href=\"handle.php?id=".$row['id']."\"><div class=\"prpb\"><h3>$price Р</h3><h4>Добавить в корзину</h4>
-						</div></a></section></div></object></a></div>";
+						echo "<div class=\"prpb\" id='{$row['id']}'><h3>$price Р</h3><h4>Добавить в корзину</h4></div></section></div>";
+						echo "</div>";*/
 			};
 			echo "</div>";
 			echo '<div class="clear">

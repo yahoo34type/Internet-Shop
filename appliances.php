@@ -1,3 +1,12 @@
+<? 
+  include('includes/db.php');
+	session_start();
+	if (!isset($_SESSION['id'])) {
+		$t = mysqli_query($connection,"SELECT REPLACE(UUID(),'-','_') AS `id`") or die('Запрос 0.1 не удался: ' . mysqli_error($connection));
+	  $_SESSION['id'] = mysqli_fetch_assoc($t)['id'];
+	  mysqli_query($connection,"INSERT INTO `Sessions`(`sid`) VALUES ('{$_SESSION['id']}')") or die('Запрос 0.2 не удался: ' . mysqli_error($connection));
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,38 +14,47 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" type="image/x-icon" href="images/io.png">
 	<link rel="stylesheet" href="style.css" media="all">
+	<script src="/hide.js"></script>
 </head>
+<div class="cover" id="cover"></div>
+<header>
 	<div class="header">
-		
-			<header>
+			<a href="/basket.php">
 				<div class="basket">
-								Корзина
-								<img src="images/korz49.jpg">
+					<img src="images/basket.png"><span class="s totalvalue">
+						<?
+							$res=mysqli_query($connection,"SELECT SUM(`Basket`.`value` * `Prices`.`value`) AS `sum` FROM `Basket` JOIN `Prices` on `Basket`.`goods_id`=`Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')");
+							$res1=mysqli_fetch_assoc($res);
+							if (isset($res1['sum']))
+								$sum=$res1['sum'];
+							else
+								$sum = 0;
+							echo $sum;
+						?> 
+					</span>р
+					<div class="basketnum">
+					<?
+							$res32=mysqli_fetch_assoc(mysqli_query($connection,"SELECT COUNT(*) FROM `Basket` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')"));
+							$c=$res32['COUNT(*)'];
+							echo "<span class='totalcount'>$c</span>";
+					?>
+					</div>
 				</div>
+				</a>
 				<div class="topmenu">
-						<a href="/index.php"">Главная</a>
-						<a href="/towns.php">Список городов</a>
-						<a href="/contacts.php">Контакты</a>
+						<a href="/index.php""><div class='headerbtn'><img src="images/home.png"></div></a>
+						<a href="/towns.php"><div class='headerbtn'><img src="images/planet.png"></div></a>
+						<a href="/contacts.php"><div class='headerbtn'><img src="images/phone.png"></div></a>
 				</div>
-				<img src="images/FeelsBadMan.png" alt="Логотип сайта" title="Логотип сайта">
-				<!--<div class="afisha">
-					<img src="images/afisha.png" alt="Обложечка" title="Обложечка">
-					<h3>Лол, 30к<br>денег. Почем</h3>
-					<p><a href="#">Тут?</a></p>
-				</div>-->
-			</header>
-		
+				<a href="javascript:" onclick="Hide('navmenu');"><div class='menubtn'><img class="siteicon" src="images/FeelsBadMan.png" alt="Меню сайта" title="Меню сайта"><img src="images/chevron.png" id='chev' height="12px" style="margin-left: 10px; margin-bottom: 22px;"></div></a>
 	</div>
-	<div class="menu">
-		<div class="mid">
-			<nav>
-			 <ul>
-			 	<li><a href="/viewgoods.php?type=1&page=1">Компьютеры</a></li>
-			 	<li><a href="/components.php">Комплектующие</a></li>
-			 	<li><a href="/appliances.php">Бытовая техника</a></li>		 	
-			 </ul>
-			</nav>
-		</div>
+</header>
+	<div class="menu" id="navmenu">
+			
+			 	<a href="/viewgoods.php?page=1"><div class = "menubtn2"><img src="images/comp.png">Компьютеры</div></a>
+			 	<a href="/components.php"><div class = "menubtn2"><img src="images/chip.png">Комплектующие</div></a>
+			 	<a href="/appliances.php"><div class = "menubtn2"><img src="images/wm.png">Бытовая техника</div></a>	 	
+			 
 	</div>
 	<div class="content">
 		<div class="mid2">
