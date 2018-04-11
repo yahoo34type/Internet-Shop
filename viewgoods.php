@@ -39,9 +39,11 @@
 				});
 		}
 	</script>
-	<script type="text/javascript">
+	<script type="text/javascript" name="добавление в корзину">
 		$(document).ready(function(){
    		$(".prpb").click(function(){
+			if ($(this).attr('ch')== 'true')
+				return;
    			$.get( 
    				'handle.php',
    				{
@@ -51,6 +53,26 @@
    				},
    				function(data) {
   				updatepc();
+				});
+				$(this).unbind('mouseenter mouseleave');
+				$(this).attr('ch','true');
+				$(this).find('h3').css({'background':'url(images/check.png) no-repeat','background-size': '58px','background-position': '38px 6px'});
+				var n = $(this).find('h3').text();
+	  		$(this).find('h3').html('<br>');
+	  		$(this).find('h4').text('Добавлено!');
+				$(this).css('background','linear-gradient(5deg, #f8df2a, #85921b)').delay(2000)
+	  		.queue(function (next) {
+	  			$(this).attr('ch','false');
+	  			$(this).find('h3').css('background','none');
+		    	$(this).css('background','linear-gradient(5deg, #23AFAA, #1B7692)');
+		    	$(this).find('h3').html(n);
+		    	$(this).find('h4').text('Добавить в корзину');
+		    	$(this).hover(function(e){
+		    		$(e.currentTarget).css('background','linear-gradient(5deg, #03BB61, #17687D)');
+		    	},function(e){
+		    		$(e.currentTarget).css('background','linear-gradient(5deg, #23AFAA, #1B7692)');
+		    	});
+		    next();
 				});
     	});
 		});
@@ -152,15 +174,6 @@
 				    		echo "<h3>$price Р</h3><h4>Добавить в корзину</h4>";
 				    	echo "</div>";
 				    echo "</div>";
-				    /*echo "<div class=\"announce	\">";
-						echo "<section>";
-						
-						
-						echo "</a>";
-						$res1 = mysqli_query($connection, "SELECT `value` FROM `Prices` WHERE goods_id = {$row['id']} AND date = (SELECT MAX(date))") or die('Запрос не удался: ' . mysqli_error($connection));
-						$price = mysqli_fetch_assoc($res1)['value'];
-						echo "<div class=\"prpb\" id='{$row['id']}'><h3>$price Р</h3><h4>Добавить в корзину</h4></div></section></div>";
-						echo "</div>";*/
 			};
 			echo "</div>";
 			echo '<div class="clear">

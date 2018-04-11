@@ -38,9 +38,11 @@
 				});
 		}
 	</script>
-	<script type="text/javascript">
+	<script type="text/javascript" name="добавление в корзину">
 		$(document).ready(function(){
    		$(".prpb2").click(function(){
+			if ($(this).attr('ch')== 'true')
+				return;
    			$.get( 
    				'handle.php',
    				{
@@ -50,6 +52,23 @@
    				},
    				function(data) {
   				updatepc();
+				});
+				$(this).unbind('mouseenter mouseleave');
+				$(this).attr('ch','true');
+				$(this).find('img').attr('src',"images/check.png");
+	  		$(this).find('h2').text('Добавлено!');
+				$(this).css('background','linear-gradient(5deg, #f8df2a, #85921b)').delay(2000)
+	  		.queue(function (next) {
+	  			$(this).attr('ch','false');
+		    	$(this).css('background','linear-gradient(5deg, #23AFAA, #1B7692)');
+		    	$(this).find('img').attr('src',"images/basketw.png");
+		    	$(this).find('h2').text('Добавить в корзину');
+		    	$(this).hover(function(e){
+		    		$(e.currentTarget).css('background','linear-gradient(5deg, #03BB61, #17687D)');
+		    	},function(e){
+		    		$(e.currentTarget).css('background','linear-gradient(5deg, #23AFAA, #1B7692)');
+		    	});
+		    next();
 				});
     	});
 		});
@@ -111,6 +130,7 @@
 						echo "<h4><p align=\"justify\">{$row['description']}</p></h4>";
 						$res1 = mysqli_query($connection, "SELECT `value` FROM `Prices` WHERE goods_id = {$_GET["id"]} AND date = (SELECT MAX(date))") or die('Запрос не удался: ' . mysqli_error($connection));
 						$price = mysqli_fetch_assoc($res1)['value'];
+						echo "<div class='clear'></div>";
 			    	echo "<div class=\"prpb2\" id='{$_GET["id"]}' style='float:right;'>";
 			    		echo "<img src='images/basketw.png'><h1>$price Р</h1><h2>Добавить в корзину</h2>";
 			    	echo "</div>";

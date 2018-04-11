@@ -131,7 +131,9 @@ div.prpb {float: left; border: 1px solid #111111; height: 111px; width: 130px; m
 div.prpb:hover {color: #ffffff;background: linear-gradient(5deg, #03BB61, #17687D); box-shadow: 0 0 5px 0px #5954a2; transition: all 0.5s;}
 div.prpb2 {float: left; border: 1px solid #111111; height: 122px; width: 308px; margin: 8px 0px 0px 24px; border-radius: 14px; background: linear-gradient(5deg, #23AFAA, #1B7692); box-shadow: 0 0 4px 0px #5954a2;}
 div.prpb2:hover {color: #ffffff;background: linear-gradient(5deg, #03BB61, #17687D); box-shadow: 0 0 5px 0px #5954a2; transition: all 0.5s;}
-div.prpb h3{text-align: center; margin-top: 31px; font-size: 25px; color: #81d1d1; text-shadow: 1px 1px 2px black;}
+div.prpb h3{text-align: center; /*background: url(images/check.png) no-repeat;*/
+    margin-top: 0px;     padding-top: 31px;    margin-bottom: 0px;    padding-bottom: 10px;
+    background-size: 58px;    background-position: 38px 6px;font-size: 25px; color: #81d1d1; text-shadow: 1px 1px 2px black;}
 div.prpb h4{text-align: center; margin-top: 15px; font-size: 15px; line-height: 15px; color: #ffffff;text-shadow: 1px 1px 1px #464454;}
 div.prpb2 h2{text-align: center; margin-top: 15px; font-size: 19px; line-height: 21px; color: #ffffff;text-shadow: 1px 1px 1px #464454;}
 div.prpb2 h1{text-align: center; margin-top: 23px; font-size: 36px; color: #81d1d1; text-shadow: 1px 1px 2px black;}
@@ -200,3 +202,7 @@ div.paybtn {-moz-user-select: none;-khtml-user-select: none;-webkit-user-select:
     font-weight: bold;float: left; border: 1px solid #111111; height: 45px; width: 140px; margin: 8px 0px 10px 36px; border-radius: 14px; background: linear-gradient(5deg, #23AFAA, #1B7692); box-shadow: 0 0 4px 0px #5954a2;}
 div.paybtn:hover{background: linear-gradient(5deg, #a1c5da, #1B7692);)}
 div.paybtn img{float:left; height: 80%;}
+div.omegalul {float:left;}
+a.omega {display: flex;
+    width: 100%;
+    height: 100%;}
