@@ -39,7 +39,7 @@ if(isset($_GET['action']))
 	elseif ($_GET['action'] == 'sum')	{
 		if(isset($_GET['sid'])) {
 	    header("Content-type: text/txt; charset=UTF-8");
-	    $res=mysqli_query($connection,"SELECT SUM(res) AS `sum` FROM (SELECT SUM(`Basket`.`value`*`Prices`.`value`) AS `res` FROM `Basket` JOIN `Prices` ON `Basket`.`goods_id` = `Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_GET['sid']}')  GROUP BY `Prices`.`goods_id` HAVING MAX(`Prices`.`date`)) AS T");
+	    $res=mysqli_query($connection,"SELECT SUM(V.value * Basket.value) as sum FROM (SELECT Prices.goods_id, Prices.value FROM (SELECT goods_id, MAX(date) as date FROM Prices GROUP BY goods_id) AS T JOIN Prices ON Prices.goods_id = T.goods_id AND Prices.date = T.date) AS V JOIN Basket ON V.goods_id = Basket.goods_id WHERE Basket.session_id = (SELECT id FROM Sessions WHERE Sessions.sid = '{$_GET['sid']}')");
 			$res1=mysqli_fetch_assoc($res);
 			if (isset($res1['sum']))
 				$sum = $res1['sum'];

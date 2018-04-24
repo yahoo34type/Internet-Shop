@@ -72,22 +72,7 @@ input.text {width: 100px;}
 /*footer*/
 
 div.clear{clear: both;}
-/*Адаптивный дизайн*/
-@media screen and (max-width: 999px)
-{
-	div.mid{width: 95%;}
-	div.afisha h3{font-size: 22px;} 
-	div.block{width: 48%;}
-	div.announce img{widows: 100%;}
-	div.announce h3{font-size: 16px;}
-	div.adv img{width: 100%;}
-}
-@media screen and (max-width: 640px)
-{
-	div.header{text-align: center; background-position: center -130px;}
-	div.topmenu, div.afisha, div.block, div.block:nth-of-type(even) {float: none;}
-	div.block{width: auto; margin-bottom: 40px;}
-}
+
 
 div.newsimg img{float: right; margin-left: 20px;}
 div.news h3{font-size: 30px;}
@@ -96,7 +81,7 @@ div.news h5{font-size: 12px; font-weight: normal;}
 div.contacts img{float:right; width: 300px;}
 div.contacts hr{width: 250px;}
 
-div.goodsblocks{width:78%; float:left;}
+div.goodsblocks{width:77%; float:left;}
 div.goodsblock{width: 100%; float:left; margin-bottom: 10px;}
 div.goodsblock section{height: 130px; margin:7px;}
 div.goodsblock h3{margin: 0;}
@@ -115,7 +100,7 @@ div.prpb2 {-moz-user-select: none;-khtml-user-select: none;-webkit-user-select: 
 div.prpb2 img {float: left;height: 100%;margin-left: 10px;}
 div.image2{width: 130px; height: 130px; float:left;}
 div.image2 img{float: left; width: 100%; height: 100%;}
-div.des {float:left; margin-left:20px; margin-top: 10px; width: 77%;}
+div.des {float:left; margin-left:20px; margin-top: 10px; width: 74%;}
 div.des h4{font-size: 11px; color: #5A5555;margin:0px; line-height: 15px; margin-top: 15px;}
 div.des h3{font-size: 24px;	}
 div.navigation {width: 20%; background: #f5f5f5; border: 1px solid #ccc; border-radius: 3px; float:left; margin-right: 20px; padding-bottom: 5px;}
@@ -200,9 +185,36 @@ div.paybtn {-moz-user-select: none;-khtml-user-select: none;-webkit-user-select:
     line-height: 45px;
     font-size: 17px;
     font-weight: bold;float: left; border: 1px solid #111111; height: 45px; width: 140px; margin: 8px 0px 10px 36px; border-radius: 14px; background: linear-gradient(5deg, #23AFAA, #1B7692); box-shadow: 0 0 4px 0px #5954a2;}
-div.paybtn:hover{background: linear-gradient(5deg, #a1c5da, #1B7692);)}
+div.paybtn:hover{background: linear-gradient(5deg, #a1c5da, #1B7692);}
 div.paybtn img{float:left; height: 80%;}
 div.omegalul {float:left;}
 a.omega {display: flex;
     width: 100%;
     height: 100%;}
+    /*Адаптивный дизайн*/
+@media screen and (max-width: 1300px)
+{
+    header {height: 50px;}
+    div.header {height: 50px;}
+    input.w8 {font-size: 13px;}
+    div.prpb{margin-left: 0px;}
+    div.des h3 {font-size: 18px;}
+    div.des h4 {font-size: 10px;}
+    div.des {width: 68%; margin-left: 10px; margin-top: 0px; }
+    div.navigation h3 {font-size: 15px;}
+    div.image2 {width: 100px; height: 100px;}
+    form#loopa p { font-size: 13px; }
+    div.image3 {height: 120px;}
+    div.goodsblock2 h3 {font-size: 15px;}
+    div.goodsblock2{width: 22%; margin-right: 22px; margin-bottom: 20px;}
+    div.image3 img {height: 100%; width: auto;}
+    div.view h3 {font-size: 30px;}
+    div.view h4 {font-size: 13px;}
+    div.prpb {height: 105px; width: 115px; margin-top: 0px;}
+    div.prpb h3 {padding-top: 28px; font-size: 24px;}
+    div.prpb h4 {margin-top: 4px; font-size: 14px;}
+    div.linkblock {width: 74%; }
+    div.bbtn {margin-top: 6px; margin-left: 0px;}
+    div.navigation2 h3 {font-size: 20px; line-height: 22px;}
+    div.paybtn {width: 120px; margin: 8px 0px 10px 22px;}
+}
