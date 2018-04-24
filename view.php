@@ -1,4 +1,4 @@
-<? 
+<?php  
   include('includes/db.php');
 	session_start();
 	if (!isset($_SESSION['id'])) {
@@ -6,7 +6,7 @@
 	  $_SESSION['id'] = mysqli_fetch_assoc($t)['id'];
 	  mysqli_query($connection,"INSERT INTO `Sessions`(`sid`) VALUES ('{$_SESSION['id']}')") or die('Запрос 0.2 не удался: ' . mysqli_error($connection));
 	}
-?>
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +21,7 @@
 		$.get( 
    				'handle.php',
    				{
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'sum'
    				},
    				function(data) {
@@ -30,7 +30,7 @@
 		$.get( 
    				'handle.php',
    				{
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'count'
    				},
    				function(data) {
@@ -47,7 +47,7 @@
    				'handle.php',
    				{
    					id:(this).getAttribute('id'),
-   					sid:'<?echo $_SESSION['id']?>,',
+   					sid:'<?php echo $_SESSION['id'] ?>,',
    					action:'add'
    				},
    				function(data) {
@@ -80,7 +80,7 @@
 			<a href="/basket.php">
 				<div class="basket">
 					<img src="images/basket.png"><span class="s totalvalue">
-						<?
+						<?php 
 							$res=mysqli_query($connection,"SELECT SUM(`Basket`.`value` * `Prices`.`value`) AS `sum` FROM `Basket` JOIN `Prices` on `Basket`.`goods_id`=`Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')");
 							$res1=mysqli_fetch_assoc($res);
 							if (isset($res1['sum']))
@@ -88,14 +88,14 @@
 							else
 								$sum = 0;
 							echo $sum;
-						?> 
+						 ?> 
 					</span>р
 					<div class="basketnum">
-					<?
+					<?php 
 							$res32=mysqli_fetch_assoc(mysqli_query($connection,"SELECT COUNT(*) FROM `Basket` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')"));
 							$c=$res32['COUNT(*)'];
 							echo "<span class='totalcount'>$c</span>";
-					?>
+					 ?>
 					</div>
 				</div>
 				</a>
@@ -117,7 +117,7 @@
 	<div class="content">
 		<div class="mid">
 			<div class="bg">
-			<?php
+			<?php 
 			$month_rus = array("Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря");
 			if (!empty($_GET["id"]) && ctype_digit($_GET["id"]))
 			{
@@ -126,7 +126,7 @@
 					{
 						echo "<div class=\"view\">";
 						echo "<h3>{$row['name']} {$row['model']}</h3>";
-						echo "<div class=\"newsimg\"><img src=\"images/goods/" . $_GET["id"] . ".jpg\" width=\"300px%\"></div>";
+						echo "<div class=\"newsimg\"><img src=\"images/goods/" . $_GET["id"] . ".jpg\" width=\"300px\"></div>";
 						echo "<h4><p align=\"justify\">{$row['description']}</p></h4>";
 						$res1 = mysqli_query($connection, "SELECT `value` FROM `Prices` WHERE goods_id = {$_GET["id"]} AND date = (SELECT MAX(date))") or die('Запрос не удался: ' . mysqli_error($connection));
 						$price = mysqli_fetch_assoc($res1)['value'];
@@ -157,7 +157,7 @@
 					window.location = \"index.php\"
 					</script>";
 				}
-			?>			
+			 ?>			
 		</div>
 	</div>
 	<div class="footer">

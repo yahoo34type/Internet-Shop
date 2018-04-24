@@ -1,4 +1,4 @@
-<? 
+<?php 
   include('includes/db.php');
 	session_start();
 	if (!isset($_SESSION['id'])) {
@@ -22,7 +22,7 @@
 		$.get( 
    				'handle.php',
    				{
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'sum'
    				},
    				function(data) {
@@ -31,7 +31,7 @@
 		$.get( 
    				'handle.php',
    				{
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'count'
    				},
    				function(data) {
@@ -48,7 +48,7 @@
    				'handle.php',
    				{
    					id:(this).getAttribute('id'),
-   					sid:'<?echo $_SESSION['id']?>,',
+   					sid:'<?php echo $_SESSION['id'] ?>,',
    					action:'add'
    				},
    				function(data) {
@@ -84,7 +84,7 @@
 			<a href="/basket.php">
 				<div class="basket">
 					<img src="images/basket.png"><span class="s totalvalue">
-						<?
+						<?php
 							$res=mysqli_query($connection,"SELECT SUM(`Basket`.`value` * `Prices`.`value`) AS `sum` FROM `Basket` JOIN `Prices` on `Basket`.`goods_id`=`Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')");
 							$res1=mysqli_fetch_assoc($res);
 							if (isset($res1['sum']))
@@ -95,7 +95,7 @@
 						?> 
 					</span>р
 					<div class="basketnum">
-					<?
+					<?php
 							$res32=mysqli_fetch_assoc(mysqli_query($connection,"SELECT COUNT(*) FROM `Basket` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')"));
 							$c=$res32['COUNT(*)'];
 							echo "<span class='totalcount'>$c</span>";
@@ -142,6 +142,8 @@
 		  $it = 1;
 		  $add = "";
 		  foreach ($res1 as $key) {
+		  	if (!isset($_GET[$key['name']]))
+		  		$_GET[$key['name']] = 0;
 		  	if ($_GET[$key['name']] == 0)
 		  		echo "<p><input type=\"checkbox\" name={$key['name']} id='cb$it' value=\"1\"> {$key['name']}</p>";
 		  	else

@@ -1,4 +1,4 @@
-<?
+<?php
 function getvalchange($url, $getparam, $newval)
 {
     $k = preg_split("/[\"&?]+/", $url);

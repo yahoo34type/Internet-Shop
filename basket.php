@@ -1,4 +1,4 @@
-<? 
+<?php  
   include('includes/db.php');
 	session_start();
 	if (!isset($_SESSION['id'])) {
@@ -6,7 +6,7 @@
 	  $_SESSION['id'] = mysqli_fetch_assoc($t)['id'];
 	  mysqli_query($connection,"INSERT INTO `Sessions`(`sid`) VALUES ('{$_SESSION['id']}')") or die('Запрос 0.2 не удался: ' . mysqli_error($connection));
 	}
-?>
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +21,7 @@
 		$.get( 
    				'handle.php',
    				{
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'sum'
    				},
    				function(data) {
@@ -30,7 +30,7 @@
 		$.get( 
    				'handle.php',
    				{
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'count'
    				},
    				function(data) {
@@ -46,7 +46,7 @@
    				'handle.php',
    				{
    					id:(this).getAttribute('id'),
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'dec'
    				},
    				function(data) {
@@ -69,7 +69,7 @@
    				'handle.php',
    				{
    					id:(this).getAttribute('id'),
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'inc'
    				},
    				function(data) {
@@ -87,7 +87,7 @@
    				'handle.php',
    				{
    					id:(this).getAttribute('id'),
-   					sid:'<?echo $_SESSION['id']?>',
+   					sid:'<?php echo $_SESSION['id'] ?>',
    					action:'del'
    				},
    				function(data) {
@@ -106,7 +106,7 @@
 			<a href="/basket.php">
 				<div class="basket">
 					<img src="images/basket.png"><span class="s totalvalue">
-						<?
+						<?php 
 							$res=mysqli_query($connection,"SELECT SUM(`Basket`.`value` * `Prices`.`value`) AS `sum` FROM `Basket` JOIN `Prices` on `Basket`.`goods_id`=`Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')");
 							$res1=mysqli_fetch_assoc($res);
 							if (isset($res1['sum']))
@@ -114,14 +114,14 @@
 							else
 								$sum = 0;
 							echo $sum;
-						?> 
+						 ?> 
 					</span>р
 					<div class="basketnum">
-					<?
+					<?php 
 							$res32=mysqli_fetch_assoc(mysqli_query($connection,"SELECT COUNT(*) FROM `Basket` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')"));
 							$c=$res32['COUNT(*)'];
 							echo "<span class='totalcount'>$c</span>";
-					?>
+					 ?>
 					</div>
 				</div>
 				</a>
@@ -143,7 +143,7 @@
 	<div class="content">
 		<div class="mid2">
 			<div class="bg">
-			<?
+			<?php 
 			include("includes/db.php");
 			$result = mysqli_query($connection, ("SELECT `Goods`.`id`,`Marks`.`name`,`Goods`.`model`,`Goods`.`preview`,`Basket`.`value` FROM `Goods` JOIN `Prices` ON `Prices`.`goods_id` = `Goods`.`id` JOIN `Marks` ON `Marks`.`id`=`Goods`.`id_mark` JOIN `Basket` ON `Basket`.`goods_id`=`Goods`.`id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `Sessions`.`sid` = '{$_SESSION['id']}') GROUP BY `Goods`.`id` ORDER BY `Prices`.`value`")) or die('Запрос не удался: ' . mysqli_error($connection));
 			echo "<div class=\"goodsblocks\">";
@@ -178,7 +178,7 @@
 			echo '<div class="clear">
 			</div>';
 					
-			?>
+			 ?>
 					
 		</div>
 	</div>

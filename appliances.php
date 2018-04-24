@@ -1,4 +1,4 @@
-<? 
+<?php 
   include('includes/db.php');
 	session_start();
 	if (!isset($_SESSION['id'])) {
@@ -22,7 +22,7 @@
 			<a href="/basket.php">
 				<div class="basket">
 					<img src="images/basket.png"><span class="s totalvalue">
-						<?
+						<?php
 							$res=mysqli_query($connection,"SELECT SUM(`Basket`.`value` * `Prices`.`value`) AS `sum` FROM `Basket` JOIN `Prices` on `Basket`.`goods_id`=`Prices`.`goods_id` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')");
 							$res1=mysqli_fetch_assoc($res);
 							if (isset($res1['sum']))
@@ -33,7 +33,7 @@
 						?> 
 					</span>р
 					<div class="basketnum">
-					<?
+					<?php
 							$res32=mysqli_fetch_assoc(mysqli_query($connection,"SELECT COUNT(*) FROM `Basket` WHERE `Basket`.`session_id` = (SELECT `id` FROM `Sessions` WHERE `sid` = '{$_SESSION['id']}')"));
 							$c=$res32['COUNT(*)'];
 							echo "<span class='totalcount'>$c</span>";
